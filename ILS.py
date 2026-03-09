@@ -25,7 +25,7 @@ ILS Design (following lecture03 guidelines)
     edge (checked against pipe/source capacity constraints).
 
 (3) Local Search - intensification (two MOVE operators)
-    - Edge-Swap:      Remove one tree edge, reconnect the two resulting
+    - 2-opt-Swap:      Remove one tree edge, reconnect the two resulting
                       subtrees with a different non-tree edge.
     - Reversion:  Reverse the direction of one tree edge.
     Both applied alternately; first-improvement strategy.
@@ -338,7 +338,7 @@ def greedy_initial_solution(data: dict) -> list:
 # 6.  LOCAL SEARCH  (intensification)
 # =============================================================================
 
-def move_edge_swap(tree_edges: list, data: dict,
+def move_2opt_swap(tree_edges: list, data: dict,
                    current_cost: float) -> tuple:
     """
     Edge-Swap MOVE (intensification operator):
@@ -429,7 +429,7 @@ def local_search(tree_edges: list, data: dict) -> tuple:
     while improved:
         improved = False
 
-        new_edges, new_cost = move_edge_swap(tree_edges, data, cost)
+        new_edges, new_cost = move_2opt_swap(tree_edges, data, cost)
         if new_cost < cost - 1e-9:
             tree_edges = new_edges
             cost       = new_cost

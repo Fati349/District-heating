@@ -27,7 +27,7 @@ ILS Design (following lecture03 guidelines)
 (3) Local Search - intensification (two MOVE operators)
     - Edge-Swap:      Remove one tree edge, reconnect the two resulting
                       subtrees with a different non-tree edge.
-    - Reorientation:  Reverse the direction of one tree edge.
+    - Reversion:  Reverse the direction of one tree edge.
     Both applied alternately; first-improvement strategy.
 
 (4) Perturbation - diversification (Double-Bridge style)
@@ -388,10 +388,10 @@ def move_edge_swap(tree_edges: list, data: dict,
     return tree_edges, current_cost
 
 
-def move_reorientation(tree_edges: list, data: dict,
+def move_reversion(tree_edges: list, data: dict,
                         current_cost: float) -> tuple:
     """
-    Reorientation MOVE (intensification operator):
+    Reversion MOVE (intensification operator):
 
     For each tree edge (i,j), try reversing direction to (j,i).
     Accept only if the reversed edge still yields a valid directed tree
@@ -420,7 +420,7 @@ def move_reorientation(tree_edges: list, data: dict,
 
 def local_search(tree_edges: list, data: dict) -> tuple:
     """
-    Apply Edge-Swap and Reorientation alternately until no improvement.
+    Apply Edge-Swap and Reversion alternately until no improvement.
     Returns the locally optimal tree and its cost.
     """
     cost = evaluate(tree_edges, data)
@@ -435,7 +435,7 @@ def local_search(tree_edges: list, data: dict) -> tuple:
             cost       = new_cost
             improved   = True
 
-        new_edges, new_cost = move_reorientation(tree_edges, data, cost)
+        new_edges, new_cost = move_reversion(tree_edges, data, cost)
         if new_cost < cost - 1e-9:
             tree_edges = new_edges
             cost       = new_cost
